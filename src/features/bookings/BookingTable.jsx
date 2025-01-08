@@ -1,9 +1,16 @@
 import BookingRow from "./BookingRow";
+import { useBookings } from "./useBookings";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
+import Spinner from "../../ui/Spinner";
+import PropTypes from "prop-types";
 
 function BookingTable() {
-  const bookings = [];
+  const { bookings, isLoading } = useBookings();
+
+  if (isLoading) return <Spinner />;
+  if (!bookings.length) return <Empty resourceName="bookings" />;
 
   return (
     <Menus>
@@ -27,5 +34,16 @@ function BookingTable() {
     </Menus>
   );
 }
+
+BookingRow.propTypes = {
+  booking: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    cabin: PropTypes.string.isRequired,
+    guest: PropTypes.string.isRequired,
+    dates: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default BookingTable;
