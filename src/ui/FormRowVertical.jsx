@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { StyleSheetManager } from "styled-components";
 import PropTypes from "prop-types";
+import isPropValid from "@emotion/is-prop-valid";
 
 const StyledFormRow = styled.div`
   display: flex;
@@ -17,13 +19,15 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRowVertical({ label, error, children }) {
+function FormRowVertical({ label, error, children, variation }) {
   return (
-    <StyledFormRow>
-      {label && <Label htmlFor={children.props.id}>{label}</Label>}
-      {children}
-      {error && <Error>{error}</Error>}
-    </StyledFormRow>
+    <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
+      <StyledFormRow variation={variation}>
+        {label && <Label htmlFor={children.props.id}>{label}</Label>}
+        {children}
+        {error && <Error>{error}</Error>}
+      </StyledFormRow>
+    </StyleSheetManager>
   );
 }
 
@@ -31,6 +35,7 @@ FormRowVertical.propTypes = {
   label: PropTypes.string,
   error: PropTypes.string,
   children: PropTypes.element.isRequired,
+  variation: PropTypes.string,
 };
 
 export default FormRowVertical;
