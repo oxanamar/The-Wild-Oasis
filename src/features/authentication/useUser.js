@@ -13,7 +13,7 @@ export function useUser() {
     },
   });
 
-  const isAuthenticated = user?.user?.role === "authenticated";
+  const isAuthenticated = user?.role === "authenticated";
 
   console.log("useUser state:", { isLoading, user, isAuthenticated });
 
